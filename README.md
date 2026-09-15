@@ -1,5 +1,91 @@
 # DEV & LUXANDO
+## COMO RODAR: 
+---
+Você precisa ter instalado:
 
+- **Node.js 22.5 ou mais novo.** Essa versão é obrigatória porque o projeto usa o `node:sqlite`, que é o módulo de SQLite embutido no próprio Node e só existe a partir dela. Para conferir sua versão, rode `node -v` no terminal.
+- **Git**, para clonar o repositório.
+
+## Passo 1: clonar
+
+```bash
+git clone https://github.com/marianazorzi/Dev-Luxando.git
+cd Dev-Luxando
+```
+
+## Passo 2: instalar as dependências
+
+```bash
+npm install
+```
+
+Não pule esse passo. A pasta `node_modules` acabou sendo enviada para o repositório, então ela já vem junto no clone e parece que está tudo pronto. Só que ela está incompleta: falta o `bcryptjs`, que é a biblioteca usada para transformar a senha em hash antes de salvar. Sem o `npm install` você toma um erro de `Cannot find package 'bcryptjs'` logo na primeira execução.
+
+## Passo 3: rodar
+
+```bash
+npm start
+```
+
+O sistema abre direto no terminal e conversa com você por perguntas.
+
+Se aparecer a mensagem `ExperimentalWarning: SQLite is an experimental feature`, pode ignorar. É só um aviso do Node dizendo que esse módulo ainda pode mudar no futuro. O programa funciona normalmente.
+
+## Passo 4 (opcional): dados de exemplo
+
+Se você quiser ver o sistema funcionando sem cadastrar tudo na mão:
+
+```bash
+npm run seed
+```
+
+Isso cria o usuário de teste `demo` com a senha `123456`, já com cinco categorias (Salario, Freelance, Alimentacao, Transporte e Lazer) e alguns lançamentos de agosto de 2026. Pode rodar mais de uma vez sem medo, porque ele não duplica nada.
+
+## Usando o sistema
+
+Ao abrir, a primeira pergunta é se você já tem conta.
+
+- Respondendo **N**, ele pede nome, login e senha, cria a conta e já te loga.
+- Respondendo **S**, ele pede só login e senha.
+- Respondendo **0**, ele fecha.
+
+Depois disso aparece o menu com seis opções:
+
+**1. Criar categoria.** Pede o nome e o tipo, onde você digita `1` para receita ou `2` para despesa. A categoria é sua, ninguém mais enxerga, e você não pode ter duas com o mesmo nome.
+
+**2. Listar categorias.** Mostra tudo que você cadastrou, com o tipo ao lado.
+
+**3. Registrar lançamento.** Ele lista suas categorias e depois pede, nessa ordem: o nome da categoria, o valor, a data no formato `AAAA-MM-DD` e uma descrição opcional. Ele não pergunta se é receita ou despesa, porque isso já vem da categoria escolhida.
+
+**4. Resumo mensal.** Pede o mês no formato `AAAA-MM` e devolve o total gasto ou recebido em cada categoria, mais o total de receitas, o total de despesas e o saldo final.
+
+**5. Sair da conta.** Volta para a tela inicial sem fechar o programa.
+
+**0. Encerrar programa.**
+
+## Coisas que costumam travar
+
+**"Categoria não encontrada" mesmo ela existindo.** A busca compara o nome letra por letra, então maiúscula, minúscula e acento fazem diferença. Se a categoria se chama `Alimentacao`, digitar `alimentacao` ou `Alimentação` não encontra. Use a opção 2 do menu antes de lançar e copie o nome exatamente como aparece.
+
+**O resumo vem vazio depois do seed.** Os lançamentos de exemplo são de agosto de 2026. Digite `2026-08` quando ele perguntar o mês, em vez de aceitar o mês atual apertando Enter.
+
+**Valor recusado.** O valor precisa ser maior que zero. Vírgula e ponto funcionam igual, então tanto `45,90` quanto `45.90` dão certo.
+
+**Erro dizendo que `node:sqlite` é desconhecido.** Seu Node é antigo demais. Atualize para a versão 22.5 ou mais nova.
+
+## Recomeçando do zero
+
+O banco é criado sozinho na primeira execução, num arquivo chamado `gestao_financeira.db` na raiz do projeto. Se você quiser apagar tudo e começar de novo, é só deletar esse arquivo e rodar o `npm start` outra vez.
+
+## Comandos disponíveis
+
+| Comando | O que faz |
+| --- | --- |
+| `npm start` | Abre o sistema |
+| `npm run seed` | Popula o banco com dados de teste |
+| `npm run build` | Compila o TypeScript, útil só para conferir se está tudo válido |
+
+---
 ## Sistema de Gestão de Finanças
 
 # Projeto de Banco de Dados "Sistema de Gestão de Finanças Pessoais"
